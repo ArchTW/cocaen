@@ -16,9 +16,9 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::apiResource('article', ArticleController::class)->middleware('auth');
-Route::apiResource('category', CategoryController::class)->middleware('auth');
+Route::apiResource('article', ArticleController::class)->middleware('admin.auth');
+Route::apiResource('category', CategoryController::class)->middleware('admin.auth');

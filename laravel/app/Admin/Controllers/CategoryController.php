@@ -25,6 +25,7 @@ class CategoryController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Category());
+
         $grid->sortable();
         // $grid->model()->orderBy('sort', 'asc');
         $grid->column('id', __('Id'));

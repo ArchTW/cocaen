@@ -4,10 +4,12 @@ namespace App\Admin\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+// use App\Models\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Auth\Database\Administrator;
 
 class ArticleController extends AdminController
 {
@@ -27,16 +29,33 @@ class ArticleController extends AdminController
     {
         $grid = new Grid(new Article());
 
-        $grid->column('id', __('Id'));
-        $grid->column('author_id', __('Author id'));
-        $grid->column('category_id', __('Category id'));
+        $grid->filter(function ($filter) {
+            $filter->like('author.name', 'Author');
+            $filter->like('category.name', 'Category');
+            $filter->like('created_at', 'Created at');
+            $filter->like('updated_at', 'Updated at');
+            // 您可以根據您的需求添加其他搜尋條件
+            $filter->where(function ($query) {
+                $input = $this->input;
+                $query->orWhere('title', 'like', "%$input%")
+                    ->orWhere('subtitle', 'like', "%$input%")
+                    ->orWhere('cover', 'like', "%$input%")
+                    ->orWhere('content', 'like', "%$input%");
+            }, 'ALL');
+        });
+
+        $grid->column('id', __('Id'))->sortable();
+        // $grid->column('author_id', __('Author id'))->sortable();
+        $grid->column('author.name', __('Author'));
+        // $grid->column('category_id', __('Category id'))->sortable();
+        $grid->column('category.name', __('Category'))->sortable();
         $grid->column('title', __('Title'));
         $grid->column('subtitle', __('Subtitle'));
         $grid->column('cover', __('Cover'));
         $grid->column('content', __('Content'));
-        $grid->column('views', __('Views'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('views', __('Views'))->sortable();
+        $grid->column('created_at', __('Created at'))->sortable();
+        $grid->column('updated_at', __('Updated at'))->sortable();
 
         return $grid;
     }
@@ -74,7 +93,10 @@ class ArticleController extends AdminController
     {
         $form = new Form(new Article());
 
-        $form->number('author_id', __('Author id'))->rules('required');
+        // $form->number('author_id', __('Author id'))->rules('required');
+        $authors = Administrator::all()->pluck('name', 'id')->toArray();
+        $form->select('author_id', __('Author'))->options($authors)->rules('required');
+
         // 使用 Category 模型獲取所有分類記錄並建立選項列表
         $categories = Category::all()->pluck('name', 'id')->toArray();
         $form->select('category_id', __('Category'))->options($categories)->rules('required');

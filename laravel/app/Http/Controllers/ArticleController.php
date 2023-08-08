@@ -13,7 +13,7 @@ class ArticleController extends Controller
     public function __construct()
     {
         // $this->middleware('auth:api', ['except' => ['index', 'show']]);
-        $this->middleware('auth')->except('index')->except('show');
+        $this->middleware('admin.auth')->except('index')->except('show');
     }
     /**
      * Display a listing of the resource.

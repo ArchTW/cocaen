@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Encore\Admin\Auth\Database\Administrator;
 
 class Article extends Model
 {
@@ -23,7 +24,7 @@ class Article extends Model
     }
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Administrator::class);
     }
 
 }

@@ -15,7 +15,7 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id()->comment('唯一編號');
-            $table->unsignedBigInteger('author_id')->comment('作者');
+            $table->unsignedInteger('author_id')->comment('作者');
             $table->unsignedBigInteger('category_id')->comment('分類');
             $table->string('title', 128)->comment('標題');
             $table->string('subtitle', 128)->nullable()->comment('子標題');
@@ -25,7 +25,7 @@ class CreateArticlesTable extends Migration
             $table->timestamp('created_at')->useCurrent()->comment('建立時間');
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate()->comment('更新時間');
 
-            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('author_id')->references('id')->on('admin_users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
         });
     }

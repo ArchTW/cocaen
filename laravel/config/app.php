@@ -1,4 +1,5 @@
 <?php
+Encore\Admin\Providers\AdminServiceProvider::class;
 
 return [
 
@@ -80,7 +81,8 @@ return [
     |
     */
 
-    'locale' => 'en',
+    // 'locale' => 'en',
+    'locale' => 'zh-TW', //系統預設語系
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +108,8 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    // 'faker_locale' => 'en_US',
+    'faker_locale' => 'zh_TW', //生成假資料的語系格式
 
     /*
     |--------------------------------------------------------------------------
